@@ -6,16 +6,16 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 
 #set the env to 'PROD' before merge in the main for CI
-ENV = 'DEV'
+ENV = 'PROD'
 
 if ENV == 'DEV':
     app.debug = True
     #configure the database localy for testing
-    app.config['SQLALCHEMY_DATABASE_URI'] =  'mysql://root:yourpassword@localhost/database_name'
+    app.config['SQLALCHEMY_DATABASE_URI'] =  'mysql://root:password@localhost/database_name'
 else:
     #run the online db (uncomment it first)
     app.debug = False
-   # app.config['SQLALCHEMY_DATABASE_URI'] =  #paste the url for the database from your heroku account after creating it
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'postgres://rugtrpplqvipsm:e7a4c3f4b6cc5da33a85e60bbd73b6f955c4a224567d369268b5db11ea544d77@ec2-18-210-180-94.compute-1.amazonaws.com:5432/d90q5sm991bmr2'
 
 # diable mofication tracking
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -68,18 +68,13 @@ def submit():
             data = Emails(email)
             db.session.add(data)
             db.session.commit()
-            print("yes")
+            msg = Message(subject="WELCOME TO THE GUILD",
+                body ="Hello and welcome. You will receive further communications from our team",
+                recipients=[email])
+            mail.send(msg)
             return render_template('index.html', message2='You have successfully subscribed to our mailing list!')
         return render_template('index.html')
 
-
-@app.route("/mail")
-def send_mail():
-    msg = Message(subject="Testing",
-                  body ="This is just a bloody test",
-                  recipients=['jimmywilliamotieno@gmail.com', 'otienosamwel135@gmail.com', 'jamie.william.284@outlook.com'])
-    mail.send(msg)
-    return "Sent to recipients"
 
 
 if __name__ == "__main__":
