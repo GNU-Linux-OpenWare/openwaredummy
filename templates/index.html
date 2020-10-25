@@ -14,8 +14,11 @@
   <link href="{{ url_for('static', filename='bootstrap.min.css') }}" rel="stylesheet">
 
   <!-- Custom fonts for this template -->
-  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,200i,300,300i,400,400i,600,600i,700,700i,900,900i" rel="stylesheet">
-  <link href="https://fonts.googleapis.com/css?family=Merriweather:300,300i,400,400i,700,700i,900,900i" rel="stylesheet">
+  <link
+    href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:200,200i,300,300i,400,400i,600,600i,700,700i,900,900i"
+    rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Merriweather:300,300i,400,400i,700,700i,900,900i"
+    rel="stylesheet">
   <script src="https://use.fontawesome.com/releases/v5.13.0/js/all.js" crossorigin="anonymous"></script>
   <link href="{{ url_for('static', filename='all.min.css') }}" rel="stylesheet" type="text/css">
 
@@ -40,11 +43,23 @@
             <h1 class="mb-3">GNU| Linux OpenWare</h1>
             <h2 class="mb-3">Coming Soon!</h2>
             <p class="mb-5">We're working hard to finish the development of this site. Our target launch date is around
-              <strong>November 2020</strong>! Sign up for updates using the form below or follow us on our social handles!</p>
+              <strong>November 2020</strong>! Sign up for updates using the form below or follow us on our social
+              handles!</p>
             <div class="input-group input-group-newsletter">
-              <input type="email" class="form-control" placeholder="Enter email..." aria-label="Enter email..." aria-describedby="submit-button">
+              {% if message %}
+              <p class="mb-3" style="color: red;">{{ message | safe}}</p>
+            {%endif%}
+
+            {% if message2 %}
+            <p class="mb-3" style="color:green;">{{ message2 | safe}}</p>
+          {%endif%}
+              <form action="/submit" method="POST">
+                <input type="email" name = "email" class="form-control" placeholder="Enter email..." aria-label="Enter email..."
+                  aria-describedby="submit-button">
+              
               <div class="input-group-append">
-                <button class="btn btn-secondary" type="button" id="submit-button">Notify Me!</button>
+                <input type="submit" value="Notify Me!" class="btn btn-secondary" id="submit-button">
+              </form>
               </div>
             </div>
           </div>
